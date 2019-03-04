@@ -1,4 +1,4 @@
-package com.vehicles.project;
+package VehiclesProject.src.com.vehicles.project;
 
 import java.util.List;
 
