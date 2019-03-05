@@ -13,6 +13,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VehiclesProject {
+    public static final Double MIN_DIAMETRO = new Double(0.4);
+    public static final Double MAX_DIAMETRO = new Double(4);
 
     public static void main(String[] args) {
         try {
@@ -78,16 +80,20 @@ public class VehiclesProject {
         boolean correcto = false;
 
         while(!correcto) {
-            String selectionAux = getInput("seleccion :");
-            Matcher mat = patron.matcher(selectionAux);
+            try {
+                String selectionAux = getInput("seleccion :");
+                Matcher mat = patron.matcher(selectionAux);
 
-            if (mat.matches()) {
-                selection = new Integer(selectionAux);
-                if (selection == 1 || selection == 2) {
-                     correcto = true;
-                } else{
-                    System.out.println("La seleccion no es correcta. Elija 1 o 2.");
+                if (mat.matches()) {
+                    selection = new Integer(selectionAux);
+                    if (selection == 1 || selection == 2) {
+                        correcto = true;
+                    } else {
+                        throw new VehicleProjectException("La seleccion no es correcta. Elija 1 o 2.");
+                    }
                 }
+            } catch(VehicleProjectException e){
+                System.out.println(e.getMessage());
             }
         }
 
@@ -101,15 +107,22 @@ public class VehiclesProject {
         String matricula = null;
 
         while(!correcto){
-            matricula = getInput("matricula :");
+            try {
+                matricula = getInput("matricula :");
 
-            if(matricula.length() >= 6 && matricula.length() <= 7){
-                Matcher mat = patron.matcher(matricula);
-                if (mat.matches()) {
-                    correcto = true;
+                if (!matricula.isEmpty()) {
+
+                    if (matricula.length() >= 6 && matricula.length() <= 7) {
+                        Matcher mat = patron.matcher(matricula);
+                        if (mat.matches()) {
+                            correcto = true;
+                        }
+                    } else {
+                        throw new VehicleProjectException("Matricula incorrecta. Formatos permitidos: 9999ZZ o 9999ZZZ");
+                    }
                 }
-            } else{
-                System.out.println("Matricula incorrecta. Formatos permitidos: 9999ZZ o 9999ZZZ");
+            } catch(VehicleProjectException e){
+                System.out.println(e.getMessage());
             }
         }
 
@@ -119,14 +132,31 @@ public class VehiclesProject {
     private static Double getDiametroRueda(){
         boolean correcto = false;
         Double diametro = null;
+        String aux = null;
+        Pattern patron = Pattern.compile("[0-9]+(.[0-9]+)?");
 
         while(!correcto){
-            diametro = new Double(getInput("diametro :"));
+            try {
+                aux = getInput("diametro :");
 
-            if(diametro > 0.4 && diametro < 4f){
-                correcto = true;
-            } else{
-                System.out.println("El diametro debe estar entre 0.4 y 4.");
+                if (!aux.isEmpty()) {
+                    Matcher mat = patron.matcher(aux);
+
+                    if (mat.matches()) {
+                        diametro = new Double(aux);
+
+
+                        if (diametro.compareTo(MIN_DIAMETRO) >= 0 && diametro.compareTo(MAX_DIAMETRO) < 1) {
+                            correcto = true;
+                        } else {
+                            throw new VehicleProjectException("El diametro debe estar entre 0.4 y 4.");
+                        }
+                    } else {
+                        throw new VehicleProjectException("El formato no es correcto. Debe ser un valor numérico.");
+                    }
+                }
+            } catch(VehicleProjectException e){
+                System.out.println(e.getMessage());
             }
         }
 

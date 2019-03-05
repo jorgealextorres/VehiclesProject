@@ -16,10 +16,12 @@ public abstract class Vehicle {
 		this.color = color;
 	}
 
-	public void addWheels(List<Wheel> frontWheels, List<Wheel> backWheels) throws Exception {
-
+	public void Vehicle() {
 	}
 
+	public abstract void addWheels(List<Wheel> frontWheels, List<Wheel> backWheels) throws Exception;
+
+	@Override
 	public String toString(){
 		return " Vechicle [ plate : " + plate + ", brand : " + brand + ", color : " + color + ", weels : " + wheels.toString() + " ] ";
 	}

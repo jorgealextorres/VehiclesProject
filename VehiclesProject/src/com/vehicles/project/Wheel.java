@@ -17,10 +17,12 @@ public class Wheel {
 		return diameter;
 	}
 
+	@Override
 	public String toString(){
 		return "wheel [ brand : " + brand + ", diameter : " + diameter + " ] ";
 	}
 
+	@Override
 	public boolean equals(Object o){
 		if (o == this) {
 			return true;

@@ -9,6 +9,7 @@ public class Bike extends Vehicle {
 		super(plate, brand, color);
 	}
 
+	@Override
 	public void addWheels(List<Wheel> frontWheels, List<Wheel> backWheels) throws Exception {
 		this.wheels.addAll(frontWheels);
 		this.wheels.addAll(backWheels);
